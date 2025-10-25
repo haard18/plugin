@@ -10,7 +10,7 @@ echo ========================================
 echo.
 
 REM Set paths
-set WIX_BIN=C:\Program Files (x86)\WiX Toolset v4\bin
+set WIX_BIN=C:\Program Files\WiX Toolset v4\bin
 set DOTNET_BIN=dotnet
 set OUTPUT_DIR=bin
 set OBJ_DIR=obj
