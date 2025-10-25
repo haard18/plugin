@@ -11,16 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- WiX Toolset DTF (Deployment Tools Framework) for custom actions -->
-    <!-- Using the latest stable version compatible with .NET Framework 4.8 -->
-    <PackageReference Include="WixToolset.Dtf.WindowsInstaller" Version="4.*" />
-    <!-- Add missing framework references explicitly -->
+    <!-- WiX Toolset DTF v3.x for Microsoft.Deployment.WindowsInstaller namespace -->
+    <PackageReference Include="Microsoft.Deployment.WindowsInstaller" Version="3.11.2" />
+    <!-- Framework references -->
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Deployment" />
-
-    <!-- Optional but useful for JSON parsing -->
-    <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
 
   <!-- Reference System.Windows.Forms for dialog boxes -->
