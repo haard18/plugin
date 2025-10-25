@@ -37,8 +37,28 @@ if errorlevel 1 (
 )
 
 echo [4/5] Compiling WiX source files...
+REM Locate wix.exe (WiX v4): prefer WIX_BIN, then default locations, then PATH (dotnet tool)
+set "WIX_EXE=%WIX_BIN%\wix.exe"
+if exist "%WIX_EXE%" goto wix_found
+set "WIX_EXE=%ProgramFiles%\WiX Toolset v4\bin\wix.exe"
+if exist "%WIX_EXE%" goto wix_found
+set "WIX_EXE=%ProgramFiles(x86)%\WiX Toolset v4\bin\wix.exe"
+if exist "%WIX_EXE%" goto wix_found
+where wix >nul 2>nul
+if %errorlevel%==0 (
+    set "WIX_EXE=wix"
+    goto wix_found
+) else (
+    echo ERROR: WiX v4 not found.
+    echo        Install WiX v4 or add it to PATH. For example:
+    echo          dotnet tool install --global wix
+    echo        Or set WIX_BIN to the correct install folder.
+    exit /b 1
+)
+
+:wix_found
 REM Compile Product.wxs and CustomDialog.wxs
-call "%WIX_BIN%\wix.exe" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext WixToolset.UI.wixext
+call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext WixToolset.UI.wixext
 if errorlevel 1 (
     echo ERROR: Failed to build WiX installer
     exit /b 1
