@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>CustomActions</AssemblyName>
+    <RootNamespace>WhiteBeardPawnInstallerCA</RootNamespace>
+    <Platform>x64</Platform>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- WiX Toolset DTF (Deployment Tools Framework) for custom actions -->
+    <PackageReference Include="WixToolset.Dtf.WindowsInstaller" Version="4.0.0" />
+    <!-- For XML parsing in license files -->
+    <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
+  </ItemGroup>
+
+  <!-- Reference System.Windows.Forms for dialog boxes -->
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+</Project>

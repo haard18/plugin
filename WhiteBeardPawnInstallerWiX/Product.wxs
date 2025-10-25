@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <!-- Main WiX Installer Definition for WhiteBeard Pawn Plugin -->
+
+  <!-- Product Definition -->
+  <Product 
+    Id="*"
+    Name="WhiteBeard Pawn Plugin"
+    Language="1033"
+    Version="1.0.0.0"
+    Manufacturer="WhiteBeard"
+    UpgradeCode="12345678-1234-1234-1234-123456789012">
+
+    <!-- Package Information -->
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <!-- MediaTemplate for file compression -->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Standard Directories -->
+    <StandardDirectory Id="ProgramFilesFolder">
+      <Directory Id="INSTALLFOLDER" Name="WhiteBeard Pawn Plugin" />
+    </StandardDirectory>
+
+    <!-- Features Definition -->
+    <Feature Id="ProductFeature" Title="WhiteBeard Pawn Plugin" Level="1" Description="Installs the WhiteBeard Pawn Plugin for MetaTrader 5">
+      
+      <!-- Plugin Files Component - Master copy in installation directory -->
+      <ComponentRef Id="PluginFilesComponent" />
+      
+      <!-- License File Component -->
+      <ComponentRef Id="LicenseFileComponent" />
+      
+      <!-- MT5 Plugin Directory tracking -->
+      <ComponentRef Id="MT5PluginComponent" />
+      
+      <!-- Installation metadata -->
+      <ComponentRef Id="InstallationInfoComponent" />
+
+    </Feature>
+
+    <!-- Properties for installer logic -->
+    <Property Id="LICENSE_PATH" Value="" />
+    <Property Id="COMPANY_NAME" Value="" />
+    <Property Id="COMPANY_EMAIL" Value="" />
+    <Property Id="MT5_ROOT" Value="" />
+    <Property Id="LICENSE_AGREEMENT_ACCEPTED" Value="0" />
+
+    <!-- Admin Check -->
+    <Condition Message="Administrator privileges are required to install this application.">
+      Privileged
+    </Condition>
+
+    <!-- Custom Actions for License and MT5 Detection -->
+    <InstallUISequence>
+      <!-- Search for and validate license during UI sequence -->
+      <Custom Action="SearchAndValidateLicenseAction" Before="DialogSequence" />
+      <!-- Verify license with API -->
+      <Custom Action="VerifyLicenseWithAPIAction" After="SearchAndValidateLicenseAction" />
+      <!-- Detect MT5 directory -->
+      <Custom Action="DetectMT5DirectoryAction" After="VerifyLicenseWithAPIAction" />
+    </InstallUISequence>
+
+    <InstallExecuteSequence>
+      <!-- Install plugin files during execute sequence -->
+      <Custom Action="InstallPluginFilesAction" After="InstallFiles" />
+    </InstallExecuteSequence>
+
+    <!-- Custom Action: Search and Validate License -->
+    <CustomAction 
+      Id="SearchAndValidateLicenseAction"
+      BinaryRef="CustomActionsBinary"
+      DllEntry="SearchAndValidateLicense"
+      Execute="immediate"
+      Return="check"
+      Impersonate="no" />
+
+    <!-- Custom Action: Verify License with API -->
+    <CustomAction 
+      Id="VerifyLicenseWithAPIAction"
+      BinaryRef="CustomActionsBinary"
+      DllEntry="VerifyLicenseWithAPI"
+      Execute="immediate"
+      Return="check"
+      Impersonate="no" />
+
+    <!-- Custom Action: Detect MT5 Directory -->
+    <CustomAction 
+      Id="DetectMT5DirectoryAction"
+      BinaryRef="CustomActionsBinary"
+      DllEntry="DetectMT5Directory"
+      Execute="immediate"
+      Return="check"
+      Impersonate="no" />
+
+    <!-- Custom Action: Install Plugin Files -->
+    <CustomAction 
+      Id="InstallPluginFilesAction"
+      BinaryRef="CustomActionsBinary"
+      DllEntry="InstallPluginFiles"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no" />
+
+    <!-- Binary reference for custom actions DLL -->
+    <Binary Id="CustomActionsBinary" SourcePath="path/to/CustomActions.dll" />
+
+    <!-- UI Sequence Definition -->
+    <UI>
+      <!-- Textbox UI Style -->
+      <TextStyle Id="DlgTitleFont" FaceName="Tahoma" Size="9" Bold="yes" />
+      <TextStyle Id="DlgFont" FaceName="Tahoma" Size="8" />
+
+      <!-- Welcome Dialog -->
+      <Dialog Id="WelcomeDlg" Width="370" Height="270" Title="WhiteBeard Pawn Plugin Installer">
+        <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
+                 FontId="DlgTitleFont" Text="Welcome to WhiteBeard Pawn Plugin Installer" />
+        <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
+                 Text="This installer will guide you through the process of installing WhiteBeard Pawn Plugin for MetaTrader 5.&#10;&#10;The installer will:&#10;1. Validate your license file&#10;2. Verify the license with our servers&#10;3. Detect your MetaTrader 5 installation&#10;4. Deploy PawnPlugin64.dll to MT5 Plugins directory&#10;5. Copy license to system ProgramData&#10;&#10;Click Next to continue." />
+        <Control Id="NextButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
+                 Text="Next &gt;" Default="yes" TabSkip="no" />
+        <Control Id="CancelButton" Type="PushButton" X="292" Y="230" Width="56" Height="18" 
+                 Cancel="yes" Text="Cancel" TabSkip="no" />
+      </Dialog>
+
+      <!-- License Selection Dialog (reference from CustomDialog.wxs) -->
+      <DialogRef Id="LicenseSelectionDlg" />
+
+      <!-- Company Info Dialog -->
+      <DialogRef Id="CompanyInfoDlg" />
+
+      <!-- MT5 Directory Dialog -->
+      <DialogRef Id="MT5DirectoryDlg" />
+
+      <!-- License Agreement Dialog -->
+      <DialogRef Id="LicenseAgreementDlg" />
+
+      <!-- Installation Progress Dialog -->
+      <Dialog Id="ProgressDlg" Width="370" Height="270" Title="Installation Progress">
+        <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
+                 FontId="DlgTitleFont" Text="Installation Progress" />
+        <Control Id="ProgressBar" Type="ProgressBar" X="20" Y="60" Width="330" Height="20" 
+                 ProgressBlocks="yes" />
+        <Control Id="StatusText" Type="Text" X="20" Y="100" Width="330" Height="100" 
+                 Text="Installing WhiteBeard Pawn Plugin...&#10;&#10;This may take a few moments." />
+        <Control Id="CancelButton" Type="PushButton" X="292" Y="230" Width="56" Height="18" 
+                 Cancel="yes" Text="Cancel" Disabled="yes" />
+      </Dialog>
+
+      <!-- Finished Dialog -->
+      <Dialog Id="FinishedDlg" Width="370" Height="270" Title="Installation Complete">
+        <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
+                 FontId="DlgTitleFont" Text="Installation Completed Successfully" />
+        <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
+                 Text="WhiteBeard Pawn Plugin has been successfully installed!&#10;&#10;✓ PawnPlugin64.dll deployed to: [MT5_ROOT]\Plugins\&#10;✓ License file stored in: C:\ProgramData\WhiteBeard\&#10;&#10;The plugin is now ready to use. You may need to restart MetaTrader 5 for the plugin to be recognized.&#10;&#10;Thank you for using WhiteBeard Pawn Plugin!" />
+        <Control Id="FinishButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
+                 Text="Finish" Default="yes" TabSkip="no" />
+      </Dialog>
+
+      <!-- User Exit Dialog -->
+      <Dialog Id="UserExitDlg" Width="370" Height="270" Title="Installation Cancelled">
+        <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
+                 FontId="DlgTitleFont" Text="Installation Cancelled" />
+        <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
+                 Text="You have chosen to cancel the installation of WhiteBeard Pawn Plugin.&#10;&#10;If you wish to install this product later, you can run this installer again.&#10;&#10;For support, please visit: www.whitebeard.ai" />
+        <Control Id="FinishButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
+                 Text="Finish" Default="yes" TabSkip="no" />
+      </Dialog>
+
+      <!-- Error Dialog -->
+      <Dialog Id="ErrorDlg" Width="370" Height="270" Title="Installation Error">
+        <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
+                 FontId="DlgTitleFont" Text="Installation Error" />
+        <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
+                 Text="An error occurred during installation:&#10;&#10;[ErrorMessage]&#10;&#10;Please contact WhiteBeard support if the problem persists.&#10;Website: www.whitebeard.ai&#10;Email: info@whitebeard.ai" />
+        <Control Id="FinishButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
+                 Text="Finish" Default="yes" TabSkip="no" />
+      </Dialog>
+
+      <!-- Dialog Sequence -->
+      <Publish Dialog="WelcomeDlg" Control="NextButton" Event="NewDialog" Value="LicenseSelectionDlg" />
+      <Publish Dialog="LicenseSelectionDlg" Control="BackButton" Event="NewDialog" Value="WelcomeDlg" />
+      <Publish Dialog="LicenseSelectionDlg" Control="NextButton" Event="NewDialog" Value="CompanyInfoDlg" />
+      <Publish Dialog="CompanyInfoDlg" Control="BackButton" Event="NewDialog" Value="LicenseSelectionDlg" />
+      <Publish Dialog="CompanyInfoDlg" Control="NextButton" Event="NewDialog" Value="MT5DirectoryDlg" />
+      <Publish Dialog="MT5DirectoryDlg" Control="BackButton" Event="NewDialog" Value="CompanyInfoDlg" />
+      <Publish Dialog="MT5DirectoryDlg" Control="NextButton" Event="NewDialog" Value="LicenseAgreementDlg" />
+      <Publish Dialog="LicenseAgreementDlg" Control="BackButton" Event="NewDialog" Value="MT5DirectoryDlg" />
+      <Publish Dialog="LicenseAgreementDlg" Control="NextButton" Event="DoAction" Value="InstallPluginFilesAction" />
+
+      <!-- End Dialog Mappings -->
+      <Publish Dialog="UserExitDlg" Control="Finish" Event="EndDialog" Value="Return" />
+      <Publish Dialog="FinishedDlg" Control="FinishButton" Event="EndDialog" Value="Return" />
+      <Publish Dialog="ErrorDlg" Control="FinishButton" Event="EndDialog" Value="Return" />
+
+    </UI>
+
+    <!-- Install Scope and Install Directory -->
+    <InstallScope Id="perMachine" />
+
+  </Product>
+
+  <!-- ============================================ -->
+  <!-- COMPONENTS & FILES -->
+  <!-- ============================================ -->
+
+  <!-- Plugin Files Component - Master copy stored in installation directory -->
+  <Component Id="PluginFilesComponent" Directory="INSTALLFOLDER" Bitness="x64">
+    <!-- Master copy of plugin DLL kept in installation directory for reference/updates -->
+    <File 
+      Id="PluginDLL" 
+      Name="PawnPlugin64.dll" 
+      Source="Files\PawnPlugin64.dll"
+      Vital="yes"
+      KeyPath="yes" />
+    
+    <!-- Plugin version registry entry -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="PluginVersion" 
+      Value="1.0.0" 
+      Type="string" />
+  </Component>
+
+  <!-- License File Component -->
+  <Component Id="LicenseFileComponent" Directory="INSTALLFOLDER">
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="LicenseVersion" 
+      Value="1.0" 
+      Type="string"
+      KeyPath="yes" />
+  </Component>
+
+  <!-- MT5 Plugin Directory Component - Tracks plugin installation in MT5 directory -->
+  <Component Id="MT5PluginComponent" Directory="INSTALLFOLDER">
+    <!-- Registry entry tracks where the actual plugin was deployed in MT5 -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="MT5PluginDeployed" 
+      Value="1" 
+      Type="integer"
+      KeyPath="yes" />
+    
+    <!-- Records the MT5 root directory for reference -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="MT5Root" 
+      Value="[MT5_ROOT]" 
+      Type="string" />
+    
+    <!-- Records plugin deployment path -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="MT5PluginPath" 
+      Value="[MT5_ROOT]\Plugins\PawnPlugin64.dll" 
+      Type="string" />
+  </Component>
+
+  <!-- Installation Registry Component -->
+  <Component Id="InstallationInfoComponent" Directory="INSTALLFOLDER">
+    <!-- Main installation marker -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="Installed" 
+      Value="1" 
+      Type="integer"
+      KeyPath="yes" />
+    
+    <!-- Installer version -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="Version" 
+      Value="1.0.0" 
+      Type="string" />
+    
+    <!-- Installation directory for future reference -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="InstallDir" 
+      Value="[INSTALLFOLDER]" 
+      Type="string" />
+    
+    <!-- Installation timestamp -->
+    <RegistryValue 
+      Root="HKLM" 
+      Key="Software\WhiteBeard\PawnPlugin" 
+      Name="InstallDate" 
+      Value="[Date]" 
+      Type="string" />
+  </Component>
+
+</Wix>

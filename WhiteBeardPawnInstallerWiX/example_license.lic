@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example License File for WhiteBeard Pawn Plugin -->
+<!-- Save as: test_pawn_plugin.lic in C:\ProgramData\WhiteBeard\ for testing -->
+
+<License>
+  <LicenseInfo>
+    <CompanyName>Acme Trading Inc.</CompanyName>
+    <CompanyEmail>trading@acme.com</CompanyEmail>
+    <LicenseKey>WB-2024-001234-PAWN</LicenseKey>
+    <LicenseVersion>1.0</LicenseVersion>
+  </LicenseInfo>
+
+  <Validity>
+    <IssueDate>2024-01-15</IssueDate>
+    <ExpirationDate>2025-12-31</ExpirationDate>
+    <MaxCopies>1</MaxCopies>
+  </Validity>
+
+  <ProductInfo>
+    <Product>WhiteBeard Pawn Plugin</Product>
+    <Version>1.0.0</Version>
+    <Platform>MetaTrader 5</Platform>
+  </ProductInfo>
+
+  <EncryptedData>
+    <!-- In production, sensitive data would be encrypted here -->
+    <!-- Example placeholder for encrypted configuration -->
+    <APIKey>ENCRYPTED_DATA_HERE</APIKey>
+  </EncryptedData>
+
+  <Signature>
+    <!-- In production, this would contain a digital signature -->
+    <!-- Example: RSA or ECDSA signature of the license -->
+    <Hash>SHA256_HASH_HERE</Hash>
+    <SignatureData>SIGNATURE_DATA_HERE</SignatureData>
+  </Signature>
+
+</License>
