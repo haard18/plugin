@@ -57,24 +57,51 @@ if %errorlevel%==0 (
 )
 
 :wix_found
-REM Ensure WixToolset.UI.wixext is available (try path fallback or add via CLI)
-set "EXT_NAME=WixToolset.UI.wixext"
-set "EXT_ARG=%EXT_NAME%"
+echo Using WiX: %WIX_EXE%
 
-REM Prefer a direct DLL path if present (MSI install of WiX v4)
-if exist "%ProgramFiles%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll" set "EXT_ARG=%ProgramFiles%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll"
-if exist "%ProgramFiles(x86)%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll" set "EXT_ARG=%ProgramFiles(x86)%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll"
+REM Try to find WixToolset.UI.wixext DLL in standard locations
+set "EXT_DLL="
+if exist "%ProgramFiles%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll" set "EXT_DLL=%ProgramFiles%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll"
+if exist "%ProgramFiles(x86)%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll" set "EXT_DLL=%ProgramFiles(x86)%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll"
 
-REM If still using name, try to ensure it's installed for the CLI (dotnet tool scenario)
-if /I "%EXT_ARG%"=="%EXT_NAME%" (
-    for /f "tokens=*" %%i in ('"%WIX_EXE%" extension list 2^>nul ^| findstr /I "%EXT_NAME%"') do set EXT_FOUND=1
-    if not defined EXT_FOUND (
-        echo WiX extension '%EXT_NAME%' not found in CLI cache. Attempting to add it...
-        call "%WIX_EXE%" extension add %EXT_NAME%
-    )
+REM If DLL found, use it directly
+if defined EXT_DLL (
+    echo Found WiX UI extension: %EXT_DLL%
+    set "EXT_ARG=%EXT_DLL%"
+    goto build_installer
 )
 
+REM Otherwise, try to install the extension via dotnet tool
+echo WiX UI extension DLL not found in standard paths.
+echo Attempting to add WixToolset.UI.wixext via WiX CLI...
+
+REM First check if it's already added
+"%WIX_EXE%" extension list >nul 2>&1
+if errorlevel 1 (
+    echo WARNING: Unable to list WiX extensions. Proceeding anyway...
+)
+
+REM Try to add the extension
+"%WIX_EXE%" extension add -g WixToolset.UI.wixext
+if errorlevel 1 (
+    echo.
+    echo ERROR: Failed to add WixToolset.UI.wixext extension.
+    echo.
+    echo Please install it manually:
+    echo   wix extension add -g WixToolset.UI.wixext
+    echo.
+    echo Or if using MSI-installed WiX v4, ensure WixToolset.UI.wixext.dll exists in:
+    echo   %ProgramFiles%\WiX Toolset v4\bin\
+    echo.
+    exit /b 1
+)
+
+echo Extension added successfully.
+set "EXT_ARG=WixToolset.UI.wixext"
+
+:build_installer
 REM Compile Product.wxs and CustomDialog.wxs with the resolved extension argument
+echo Compiling installer with extension: %EXT_ARG%
 call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext "%EXT_ARG%"
 if errorlevel 1 (
     echo ERROR: Failed to build WiX installer
