@@ -141,6 +141,24 @@ Then in Feature:
 
 ## 🐛 Troubleshooting
 
+### "The type or namespace name 'CustomAction' could not be found"
+
+**Problem:** Build fails with CS0246 error about CustomAction
+
+**Solution:**
+1. Clean and restore packages:
+   ```bash
+   dotnet clean CustomActions\CustomActions.csproj
+   dotnet restore CustomActions\CustomActions.csproj
+   ```
+
+2. Rebuild:
+   ```bash
+   build.bat
+   ```
+
+3. If still failing, see [BUILD_ERROR_FIX.md](./BUILD_ERROR_FIX.md)
+
 ### "WiX not found"
 ```bash
 # Check WiX installation
