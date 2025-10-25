@@ -57,8 +57,25 @@ if %errorlevel%==0 (
 )
 
 :wix_found
-REM Compile Product.wxs and CustomDialog.wxs
-call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext WixToolset.UI.wixext
+REM Ensure WixToolset.UI.wixext is available (try path fallback or add via CLI)
+set "EXT_NAME=WixToolset.UI.wixext"
+set "EXT_ARG=%EXT_NAME%"
+
+REM Prefer a direct DLL path if present (MSI install of WiX v4)
+if exist "%ProgramFiles%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll" set "EXT_ARG=%ProgramFiles%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll"
+if exist "%ProgramFiles(x86)%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll" set "EXT_ARG=%ProgramFiles(x86)%\WiX Toolset v4\bin\WixToolset.UI.wixext.dll"
+
+REM If still using name, try to ensure it's installed for the CLI (dotnet tool scenario)
+if /I "%EXT_ARG%"=="%EXT_NAME%" (
+    for /f "tokens=*" %%i in ('"%WIX_EXE%" extension list 2^>nul ^| findstr /I "%EXT_NAME%"') do set EXT_FOUND=1
+    if not defined EXT_FOUND (
+        echo WiX extension '%EXT_NAME%' not found in CLI cache. Attempting to add it...
+        call "%WIX_EXE%" extension add %EXT_NAME%
+    )
+)
+
+REM Compile Product.wxs and CustomDialog.wxs with the resolved extension argument
+call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext "%EXT_ARG%"
 if errorlevel 1 (
     echo ERROR: Failed to build WiX installer
     exit /b 1
