@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/CustomActions.csproj": {}
+  },
+  "projects": {
+    "/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/CustomActions.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/CustomActions.csproj",
+        "projectName": "CustomActions",
+        "projectPath": "/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/CustomActions.csproj",
+        "packagesPath": "/Users/hardy/.nuget/packages/",
+        "outputPath": "/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/hardy/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            },
+            "WixToolset.Dtf.WindowsInstaller": {
+              "target": "Package",
+              "version": "[4.*, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.407/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

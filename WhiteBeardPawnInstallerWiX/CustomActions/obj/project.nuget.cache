@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "mnMiwsmN2Xo=",
+  "success": true,
+  "projectFilePath": "/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/CustomActions.csproj",
+  "expectedPackageFiles": [
+    "/Users/hardy/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.3/microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "/Users/hardy/.nuget/packages/microsoft.netframework.referenceassemblies.net48/1.0.3/microsoft.netframework.referenceassemblies.net48.1.0.3.nupkg.sha512",
+    "/Users/hardy/.nuget/packages/wixtoolset.dtf.windowsinstaller/4.0.6/wixtoolset.dtf.windowsinstaller.4.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}

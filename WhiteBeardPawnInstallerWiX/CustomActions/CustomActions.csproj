@@ -8,6 +8,11 @@
     <Platform>x64</Platform>
     <UseWindowsForms>true</UseWindowsForms>
     <OutputType>Library</OutputType>
+    <!-- Ensure we embed all dependencies -->
+    <PublishSingleFile>false</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <!-- Copy all dependencies to output directory -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,10 +22,6 @@
     <!-- Framework references -->
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Deployment" />
-  </ItemGroup>
-
-  <!-- Reference System.Windows.Forms for dialog boxes -->
-  <ItemGroup>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>

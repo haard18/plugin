@@ -11,43 +11,47 @@
     <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
     <MediaTemplate EmbedCab="yes" />
 
+    <!-- Admin privilege requirement -->
+    <Launch Condition="Privileged" Message="Administrator privileges are required to install this application." />
+
+    <!-- Standard Directories -->
     <StandardDirectory Id="ProgramFilesFolder">
-      <Directory Id="INSTALLFOLDER" Name="WhiteBeard Pawn Plugin" />
+      <Directory Id="INSTALLFOLDER" Name="WhiteBeardPawnPlugin" />
     </StandardDirectory>
 
+    <!-- Features -->
     <Feature Id="MainFeature" Title="WhiteBeard Pawn Plugin" Level="1">
       <ComponentRef Id="MainComponent" />
       <ComponentRef Id="RegistryComponent" />
     </Feature>
 
-    <!-- Custom Actions -->
-    <Binary Id="CustomActionsBinary" SourceFile="CustomActions/bin/x64/Release/net48/CustomActions.dll" />
+    <!-- Properties for installation paths -->
+    <Property Id="MT5_ROOT" Value="C:\MetaTrader 5 Platform\TradeMain" />
 
-    <CustomAction
-      Id="InstallPluginFilesAction"
-      BinaryRef="CustomActionsBinary"
-      DllEntry="InstallPluginFiles"
-      Execute="deferred"
-      Return="check"
-      Impersonate="no" />
-
-    <InstallExecuteSequence>
-      <Custom Action="InstallPluginFilesAction" After="InstallFiles" Condition="NOT Installed" />
-    </InstallExecuteSequence>
-
-    <!-- Properties -->
-    <Property Id="LICENSE_PATH" />
-    <Property Id="COMPANY_NAME" />
-    <Property Id="COMPANY_EMAIL" />
-    <Property Id="MT5_ROOT" />
+    <!-- NO CUSTOM ACTIONS - Simple file-based installer only -->
+    <!-- This eliminates the DLL loading issues entirely -->
 
   </Package>
 
   <Fragment>
-    <Component Id="MainComponent" Directory="INSTALLFOLDER">
-      <File Id="PluginDLL" Name="PawnPlugin64.dll" Source="Files\PawnPlugin64.dll" KeyPath="yes" />
+    <!-- Main plugin file component -->
+    <Component Id="MainComponent" Directory="INSTALLFOLDER" Bitness="always64">
+      <File 
+        Id="PluginDLL" 
+        Name="PawnPlugin64.dll" 
+        Source="Files\PawnPlugin64.dll" 
+        KeyPath="yes"
+        Vital="yes" />
+      
+      <!-- Create a simple installation info file -->
+      <File 
+        Id="InstallInfo" 
+        Name="install_info.txt" 
+        Source="Files\README.md"
+        Vital="no" />
     </Component>
 
+    <!-- Registry component for tracking installation -->
     <Component Id="RegistryComponent" Directory="INSTALLFOLDER">
       <RegistryValue
         Root="HKLM"
@@ -56,17 +60,26 @@
         Value="1"
         Type="integer"
         KeyPath="yes" />
+      
       <RegistryValue
         Root="HKLM"
         Key="Software\WhiteBeard\PawnPlugin"
         Name="Version"
         Value="1.0.0"
         Type="string" />
+      
       <RegistryValue
         Root="HKLM"
         Key="Software\WhiteBeard\PawnPlugin"
         Name="InstallDir"
         Value="[INSTALLFOLDER]"
+        Type="string" />
+      
+      <RegistryValue
+        Root="HKLM"
+        Key="Software\WhiteBeard\PawnPlugin"
+        Name="InstallDate"
+        Value="[Date]"
         Type="string" />
     </Component>
   </Fragment>

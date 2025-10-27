@@ -1,0 +1,12 @@
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/bin/x64/Release/net48/CustomActions.dll
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/bin/x64/Release/net48/CustomActions.pdb
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/bin/x64/Release/net48/WixToolset.Dtf.WindowsInstaller.dll
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.csproj.AssemblyReference.cache
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.GeneratedMSBuildEditorConfig.editorconfig
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.AssemblyInfoInputs.cache
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.AssemblyInfo.cs
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.csproj.CoreCompileInputs.cache
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.sourcelink.json
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomAc.BE8D97F0.Up2Date
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.dll
+/Users/hardy/Developer/Goldpesa/abby/plugin/WhiteBeardPawnInstallerWiX/CustomActions/obj/x64/Release/net48/CustomActions.pdb
