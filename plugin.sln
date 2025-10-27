@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WhiteBeardPawnInstallerWiX", "WhiteBeardPawnInstallerWiX", "{77BCDD0C-9487-CE40-9190-50C222D760C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomActions", "WhiteBeardPawnInstallerWiX\CustomActions\CustomActions.csproj", "{BFD3AB1E-2825-CB23-748E-23FB8119DD34}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFD3AB1E-2825-CB23-748E-23FB8119DD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFD3AB1E-2825-CB23-748E-23FB8119DD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFD3AB1E-2825-CB23-748E-23FB8119DD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFD3AB1E-2825-CB23-748E-23FB8119DD34}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFD3AB1E-2825-CB23-748E-23FB8119DD34} = {77BCDD0C-9487-CE40-9190-50C222D760C7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56192CA4-FB1A-4189-B9EB-D2908A7B7753}
+	EndGlobalSection
+EndGlobal
