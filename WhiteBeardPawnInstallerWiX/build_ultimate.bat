@@ -43,7 +43,6 @@ echo       ^<ComponentRef Id="MainComponent" /^> >> ultimate.wxs
 echo       ^<ComponentRef Id="RegistryComponent" /^> >> ultimate.wxs
 echo     ^</Feature^> >> ultimate.wxs
 echo. >> ultimate.wxs
-echo     ^<!-- Custom Actions --^> >> ultimate.wxs
 echo     ^<Binary Id="CustomActionsBinary" SourceFile="CustomActions.dll" /^> >> ultimate.wxs
 echo. >> ultimate.wxs
 echo     ^<CustomAction >> ultimate.wxs
@@ -58,7 +57,6 @@ echo     ^<InstallExecuteSequence^> >> ultimate.wxs
 echo       ^<Custom Action="InstallPluginFilesAction" After="InstallFiles" Condition="NOT Installed" /^> >> ultimate.wxs
 echo     ^</InstallExecuteSequence^> >> ultimate.wxs
 echo. >> ultimate.wxs
-echo     ^<!-- Properties --^> >> ultimate.wxs
 echo     ^<Property Id="LICENSE_PATH" /^> >> ultimate.wxs
 echo     ^<Property Id="COMPANY_NAME" /^> >> ultimate.wxs
 echo     ^<Property Id="COMPANY_EMAIL" /^> >> ultimate.wxs
