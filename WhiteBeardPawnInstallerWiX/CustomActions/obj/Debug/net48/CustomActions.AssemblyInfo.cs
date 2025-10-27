@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CustomActions")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f7ca847155c535a69c1dbe20576e2086a17d2b7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e3b76c586e4b5f4bbbe693429d77a44747e591ab")]
 [assembly: System.Reflection.AssemblyProductAttribute("CustomActions")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CustomActions")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

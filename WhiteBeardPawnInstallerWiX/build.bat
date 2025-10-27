@@ -1,6 +1,6 @@
 @echo off
-REM Build script for WhiteBeard Pawn Plugin Installer
-REM This script compiles C# custom actions and WiX source files
+REM Clean Build Script for WhiteBeard Pawn Plugin Installer
+REM Uses simplified approach with working WiX v4 syntax
 
 setlocal enabledelayedexpansion
 
@@ -10,78 +10,66 @@ echo ========================================
 echo.
 
 REM Set paths
-set WIX_BIN=C:\Program Files\WiX Toolset v4\bin
 set DOTNET_BIN=dotnet
 set OUTPUT_DIR=bin
-set OBJ_DIR=obj
 
-echo [1/5] Cleaning previous builds...
+echo [1/4] Cleaning previous builds...
 if exist "%OUTPUT_DIR%" rmdir /s /q "%OUTPUT_DIR%"
-if exist "%OBJ_DIR%" rmdir /s /q "%OBJ_DIR%"
 mkdir "%OUTPUT_DIR%"
-mkdir "%OBJ_DIR%"
 
-echo [2/5] Building C# Custom Actions...
+echo [2/4] Building C# Custom Actions...
 call %DOTNET_BIN% build CustomActions\CustomActions.csproj -c Release -o "%OUTPUT_DIR%"
 if errorlevel 1 (
     echo ERROR: Failed to build custom actions
+    pause
     exit /b 1
 )
 echo SUCCESS: Custom actions built
 
-echo [3/5] Copying custom actions DLL...
+echo [3/4] Copying custom actions DLL...
 copy "%OUTPUT_DIR%\CustomActions.dll" .
 if errorlevel 1 (
     echo ERROR: Failed to copy CustomActions.dll
+    pause
     exit /b 1
 )
 
-echo [4/5] Compiling WiX source files...
-REM Locate wix.exe (WiX v4): prefer WIX_BIN, then default locations, then PATH
-set "WIX_EXE=%WIX_BIN%\wix.exe"
-if exist "%WIX_EXE%" goto wix_found
-set "WIX_EXE=%ProgramFiles%\WiX Toolset v4\bin\wix.exe"
-if exist "%WIX_EXE%" goto wix_found
-set "WIX_EXE=%ProgramFiles(x86)%\WiX Toolset v4\bin\wix.exe"
-if exist "%WIX_EXE%" goto wix_found
+echo [4/4] Building WiX installer...
+REM Find WiX executable
+set "WIX_EXE="
 where wix >nul 2>nul
 if %errorlevel%==0 (
     set "WIX_EXE=wix"
-    goto wix_found
 ) else (
-    echo ERROR: WiX v4 not found.
-    echo        Install WiX v4 or add it to PATH.
-    exit /b 1
-)
-
-:wix_found
-echo Using WiX: %WIX_EXE%
-REM --- Ensure WiX UI extension is available (v4) ---
-REM Try to add the extension globally if not already present
-echo Compiling installer...
-REM First try without extension since we're using custom dialogs
-call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs
-if errorlevel 1 (
-    echo First attempt failed, trying with UI extension...
-    REM Try to add the extension with correct syntax
-    echo Attempting to install WiX UI extension...
-    "%WIX_EXE%" extension add -g WixToolset.UI.wixext 2>nul
-    if errorlevel 1 (
-        echo Extension add failed, listing available extensions...
-        "%WIX_EXE%" extension list 2>nul
+    if exist "%ProgramFiles%\WiX Toolset v4\bin\wix.exe" (
+        set "WIX_EXE=%ProgramFiles%\WiX Toolset v4\bin\wix.exe"
+    ) else if exist "%ProgramFiles(x86)%\WiX Toolset v4\bin\wix.exe" (
+        set "WIX_EXE=%ProgramFiles(x86)%\WiX Toolset v4\bin\wix.exe"
+    ) else (
+        echo ERROR: WiX v4 not found. Please install WiX Toolset v4.
+        echo Download from: https://github.com/wixtoolset/wix4/releases
+        pause
+        exit /b 1
     )
-    echo Attempting build with UI extension...
-    call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext WixToolset.UI.wixext
 )
+
+echo Using WiX: %WIX_EXE%
+echo Building installer...
+
+REM Use the clean Product_Ultimate.wxs (no complex UI issues)
+call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product_Ultimate.wxs
+
 if errorlevel 1 (
-    echo ERROR: Failed to build WiX installer
-    exit /b 1
+    echo ERROR: WiX build failed
+    echo Trying fallback to basic Product.wxs...
+    call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs
+    if errorlevel 1 (
+        echo ERROR: Both WiX builds failed
+        pause
+        exit /b 1
+    )
 )
-echo SUCCESS: Installer compiled
 
-:post_build
-
-echo [5/5] Verifying output...
 if exist "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" (
     echo.
     echo ========================================
@@ -89,10 +77,12 @@ if exist "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" (
     echo ========================================
     echo Output: %OUTPUT_DIR%\WhiteBeardPawnPlugin.msi
     echo.
-    echo You can now install with:
+    dir "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi"
+    echo.
+    echo To install:
     echo   msiexec /i "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi"
     echo.
-    echo For verbose logging:
+    echo To install with verbose logging:
     echo   msiexec /i "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" /l*v install.log
     echo.
 ) else (
@@ -100,5 +90,6 @@ if exist "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" (
     exit /b 1
 )
 
+pause
 endlocal
 exit /b 0
