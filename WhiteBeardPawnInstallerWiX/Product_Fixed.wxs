@@ -27,8 +27,8 @@
     </Feature>
 
     <!-- Custom Actions -->
-    <Binary Id="CustomActionsBinary" SourcePath="CustomActions.dll" />
-    
+    <Binary Id="CustomActionsBinary" SourceFile="CustomActions.dll" />
+
     <CustomAction 
       Id="InstallPluginFilesAction"
       BinaryRef="CustomActionsBinary"
@@ -39,19 +39,17 @@
 
     <!-- Installation Sequence -->
     <InstallExecuteSequence>
-      <Custom Action="InstallPluginFilesAction" After="InstallFiles">NOT Installed</Custom>
+      <Custom Action="InstallPluginFilesAction" After="InstallFiles" Condition="NOT Installed" />
     </InstallExecuteSequence>
 
     <!-- Simple UI -->
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     
     <!-- Properties for Custom Actions -->
-    <Property Id="LICENSE_PATH" Value="" />
-    <Property Id="COMPANY_NAME" Value="" />
-    <Property Id="COMPANY_EMAIL" Value="" />
-    <Property Id="MT5_ROOT" Value="" />
-
-  </Package>
+    <Property Id="LICENSE_PATH" />
+    <Property Id="COMPANY_NAME" />
+    <Property Id="COMPANY_EMAIL" />
+    <Property Id="MT5_ROOT" />  </Package>
 
   <!-- Components in Fragment -->
   <Fragment>

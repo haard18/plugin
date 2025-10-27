@@ -8,7 +8,7 @@
   <Dialog Id="LicenseSelectionDlg" Width="370" Height="270" Title="WhiteBeard Pawn Plugin - License Setup">
     
     <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-             FontId="TitleFont" Text="License File Setup" />
+             Text="License File Setup" />
     
     <Control Id="Description" Type="Text" X="20" Y="45" Width="330" Height="40" 
              Text="Please provide your WhiteBeard Pawn Plugin license file. If you don't have one, contact WhiteBeard support." />
@@ -44,7 +44,7 @@
   <Dialog Id="CompanyInfoDlg" Width="370" Height="250" Title="WhiteBeard Pawn Plugin - Company Information">
     
     <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-             FontId="TitleFont" Text="Company Information" />
+             Text="Company Information" />
     
     <Control Id="Description" Type="Text" X="20" Y="45" Width="330" Height="30" 
              Text="The following company information was extracted from your license file:" />
@@ -86,7 +86,7 @@
   <Dialog Id="MT5DirectoryDlg" Width="370" Height="280" Title="WhiteBeard Pawn Plugin - MetaTrader 5 Directory">
     
     <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-             FontId="TitleFont" Text="MetaTrader 5 Installation" />
+             Text="MetaTrader 5 Installation" />
     
     <Control Id="Description" Type="Text" X="20" Y="45" Width="330" Height="50" 
              Text="Please specify the directory where MetaTrader 5 is installed. This is typically C:\Program Files\MetaTrader 5 or C:\MetaTrader 5 Platform." />
@@ -122,7 +122,7 @@
   <Dialog Id="LicenseAgreementDlg" Width="370" Height="320" Title="WhiteBeard Pawn Plugin - License Agreement">
     
     <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-             FontId="TitleFont" Text="License Agreement" />
+             Text="License Agreement" />
     
     <!-- License Text Box -->
     <Control Id="LicenseText" Type="ScrollableText" X="20" Y="45" Width="330" Height="220" 

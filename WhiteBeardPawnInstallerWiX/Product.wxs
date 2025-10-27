@@ -40,16 +40,14 @@
     </Feature>
 
     <!-- Properties for installer logic -->
-    <Property Id="LICENSE_PATH" Value="" />
-    <Property Id="COMPANY_NAME" Value="" />
-    <Property Id="COMPANY_EMAIL" Value="" />
-    <Property Id="MT5_ROOT" Value="" />
+    <Property Id="LICENSE_PATH" />
+    <Property Id="COMPANY_NAME" />
+    <Property Id="COMPANY_EMAIL" />
+    <Property Id="MT5_ROOT" />
     <Property Id="LICENSE_AGREEMENT_ACCEPTED" Value="0" />
 
     <!-- Admin Check -->
-    <Condition Message="Administrator privileges are required to install this application.">
-      Privileged
-    </Condition>
+    <Launch Condition="Privileged" Message="Administrator privileges are required to install this application." />
 
     <!-- Custom Actions for License and MT5 Detection -->
     <InstallUISequence>
@@ -103,7 +101,7 @@
       Impersonate="no" />
 
     <!-- Binary reference for custom actions DLL -->
-    <Binary Id="CustomActionsBinary" SourcePath="CustomActions.dll" />
+    <Binary Id="CustomActionsBinary" SourceFile="CustomActions.dll" />
 
     <!-- UI Sequence Definition -->
     <UI>
@@ -114,7 +112,7 @@
       <!-- Welcome Dialog -->
       <Dialog Id="WelcomeDlg" Width="370" Height="270" Title="WhiteBeard Pawn Plugin Installer">
         <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-                 FontId="DlgTitleFont" Text="Welcome to WhiteBeard Pawn Plugin Installer" />
+                 Text="Welcome to WhiteBeard Pawn Plugin Installer" />
         <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
                  Text="This installer will guide you through the process of installing WhiteBeard Pawn Plugin for MetaTrader 5.&#10;&#10;The installer will:&#10;1. Validate your license file&#10;2. Verify the license with our servers&#10;3. Detect your MetaTrader 5 installation&#10;4. Deploy PawnPlugin64.dll to MT5 Plugins directory&#10;5. Copy license to system ProgramData&#10;&#10;Click Next to continue." />
         <Control Id="NextButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
@@ -138,7 +136,7 @@
       <!-- Installation Progress Dialog -->
       <Dialog Id="ProgressDlg" Width="370" Height="270" Title="Installation Progress">
         <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-                 FontId="DlgTitleFont" Text="Installation Progress" />
+                 Text="Installation Progress" />
         <Control Id="ProgressBar" Type="ProgressBar" X="20" Y="60" Width="330" Height="20" 
                  ProgressBlocks="yes" />
         <Control Id="StatusText" Type="Text" X="20" Y="100" Width="330" Height="100" 
@@ -150,7 +148,7 @@
       <!-- Finished Dialog -->
       <Dialog Id="FinishedDlg" Width="370" Height="270" Title="Installation Complete">
         <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-                 FontId="DlgTitleFont" Text="Installation Completed Successfully" />
+                 Text="Installation Completed Successfully" />
         <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
                  Text="WhiteBeard Pawn Plugin has been successfully installed!&#10;&#10;✓ PawnPlugin64.dll deployed to: [MT5_ROOT]\Plugins\&#10;✓ License file stored in: C:\ProgramData\WhiteBeard\&#10;&#10;The plugin is now ready to use. You may need to restart MetaTrader 5 for the plugin to be recognized.&#10;&#10;Thank you for using WhiteBeard Pawn Plugin!" />
         <Control Id="FinishButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
@@ -160,7 +158,7 @@
       <!-- User Exit Dialog -->
       <Dialog Id="UserExitDlg" Width="370" Height="270" Title="Installation Cancelled">
         <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-                 FontId="DlgTitleFont" Text="Installation Cancelled" />
+                 Text="Installation Cancelled" />
         <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
                  Text="You have chosen to cancel the installation of WhiteBeard Pawn Plugin.&#10;&#10;If you wish to install this product later, you can run this installer again.&#10;&#10;For support, please visit: www.whitebeard.ai" />
         <Control Id="FinishButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
@@ -170,7 +168,7 @@
       <!-- Error Dialog -->
       <Dialog Id="ErrorDlg" Width="370" Height="270" Title="Installation Error">
         <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
-                 FontId="DlgTitleFont" Text="Installation Error" />
+                 Text="Installation Error" />
         <Control Id="Description" Type="Text" X="20" Y="50" Width="330" Height="120" 
                  Text="An error occurred during installation:&#10;&#10;[ErrorMessage]&#10;&#10;Please contact WhiteBeard support if the problem persists.&#10;Website: www.whitebeard.ai&#10;Email: info@whitebeard.ai" />
         <Control Id="FinishButton" Type="PushButton" X="236" Y="230" Width="56" Height="18" 
