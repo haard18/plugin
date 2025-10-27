@@ -195,16 +195,14 @@
 
     </UI>
 
-    <!-- Install Scope and Install Directory -->
-    <InstallScope Id="perMachine" />
-
   </Product>
 
   <!-- ============================================ -->
-  <!-- COMPONENTS & FILES -->
+  <!-- COMPONENTS & FILES FRAGMENT -->
   <!-- ============================================ -->
 
-  <!-- Plugin Files Component - Master copy stored in installation directory -->
+  <Fragment>
+    <!-- Plugin Files Component - Master copy stored in installation directory -->
   <Component Id="PluginFilesComponent" Directory="INSTALLFOLDER" Bitness="x64">
     <!-- Master copy of plugin DLL kept in installation directory for reference/updates -->
     <File 
@@ -297,5 +295,7 @@
       Value="[Date]" 
       Type="string" />
   </Component>
+
+  </Fragment>
 
 </Wix>

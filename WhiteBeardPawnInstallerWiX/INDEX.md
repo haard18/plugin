@@ -35,6 +35,18 @@ Welcome to the **WhiteBeard Pawn Plugin Installer** - A complete WiX Toolset 4 W
   - Configuration points
   - Testing checklist
 
+- 🐛 **[TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** - Complete build troubleshooting
+  - Common build errors and solutions
+  - Step-by-step diagnostics
+  - Environment setup
+  - Success indicators
+
+- 🔧 **[BUILD_ERROR_FIX.md](./BUILD_ERROR_FIX.md)** - Fix for CS0246 CustomAction error
+  - Detailed error explanation
+  - Multiple solution options
+  - Verification checklist
+  - Project file updates
+
 ## 📁 Project Files
 
 ### Core Installer Files
