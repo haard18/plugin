@@ -103,7 +103,7 @@
       Impersonate="no" />
 
     <!-- Binary reference for custom actions DLL -->
-    <Binary Id="CustomActionsBinary" SourcePath="path/to/CustomActions.dll" />
+    <Binary Id="CustomActionsBinary" SourcePath="CustomActions.dll" />
 
     <!-- UI Sequence Definition -->
     <UI>

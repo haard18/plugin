@@ -56,41 +56,17 @@ if %errorlevel%==0 (
 
 :wix_found
 echo Using WiX: %WIX_EXE%
-REM --- Ensure WiX UI extension is available (v4) and compile using extension ID ---
-REM Check if extension is already available; if not, add it globally
-for /f "delims=" %%i in ('%WIX_EXE% extension list ^| findstr /i /c:"WixToolset.UI.wixext"') do set "_WIX_UI_EXT_FOUND=1"
-if not defined _WIX_UI_EXT_FOUND (
-    echo WiX UI extension not found locally; adding via WiX CLI...
-    "%WIX_EXE%" extension add -g WixToolset.UI.wixext
-    if errorlevel 1 (
-        echo ERROR: Failed to add WixToolset.UI.wixext extension.
-        exit /b 1
-    )
+REM --- Ensure WiX UI extension is available (v4) ---
+REM Try to add the extension globally if not already present
+echo Compiling installer...
+REM First try without extension since we're using custom dialogs
+call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs
+if errorlevel 1 (
+    echo First attempt failed, trying with UI extension...
+    REM Add extension and try again
+    "%WIX_EXE%" extension add -g WixToolset.UI.wixext 2>nul
+    call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext WixToolset.UI.wixext
 )
-
-REM Attempt to locate the extension DLL explicitly as a reliable fallback
-set "EXT_DLL="
-set "USER_HOME=%USERPROFILE%"
-if not defined USER_HOME set "USER_HOME=%HOMEDRIVE%%HOMEPATH%"
-
-if exist "%USER_HOME%\.wix\extensions\WixToolset.UI.wixext" (
-    for /f "delims=" %%v in ('dir /b /ad /o-n "%USER_HOME%\.wix\extensions\WixToolset.UI.wixext"') do (
-        if exist "%USER_HOME%\.wix\extensions\WixToolset.UI.wixext\%%v\wixext4\WixToolset.UI.wixext.dll" (
-            set "EXT_DLL=%USER_HOME%\.wix\extensions\WixToolset.UI.wixext\%%v\wixext4\WixToolset.UI.wixext.dll"
-            goto ext_path_found
-        )
-    )
-)
-
-:ext_path_found
-if defined EXT_DLL (
-    echo Compiling installer with extension DLL: %EXT_DLL%
-    call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext "%EXT_DLL%"
-    goto post_build
-)
-
-echo Compiling installer with extension: WixToolset.UI.wixext
-call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext WixToolset.UI.wixext
 if errorlevel 1 (
     echo ERROR: Failed to build WiX installer
     exit /b 1
