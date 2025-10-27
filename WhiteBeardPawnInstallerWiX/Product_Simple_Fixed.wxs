@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+    Name="WhiteBeard Pawn Plugin"
+    Language="1033"
+    Version="1.0.0.0"
+    Manufacturer="WhiteBeard"
+    UpgradeCode="12345678-1234-1234-1234-123456789012">
+
+    <SummaryInformation Description="WhiteBeard Pawn Plugin for MetaTrader 5" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Admin privilege requirement -->
+    <Launch Condition="Privileged" Message="Administrator privileges are required to install this application." />
+
+    <!-- Standard Directories -->
+    <StandardDirectory Id="ProgramFilesFolder">
+      <Directory Id="INSTALLFOLDER" Name="WhiteBeardPawnPlugin" />
+    </StandardDirectory>
+
+    <!-- Features -->
+    <Feature Id="MainFeature" Title="WhiteBeard Pawn Plugin" Level="1">
+      <ComponentRef Id="PluginFileComponent" />
+      <ComponentRef Id="LicenseComponent" />
+      <ComponentRef Id="RegistryComponent" />
+      <ComponentRef Id="DocumentationComponent" />
+    </Feature>
+
+    <!-- NO CUSTOM ACTIONS AT ALL - This eliminates DLL loading issues -->
+    
+  </Package>
+
+  <Fragment>
+    <!-- Plugin DLL Component -->
+    <Component Id="PluginFileComponent" Directory="INSTALLFOLDER" Bitness="always64">
+      <File 
+        Id="PluginDLL" 
+        Name="PawnPlugin64.dll" 
+        Source="Files\PawnPlugin64.dll" 
+        KeyPath="yes"
+        Vital="yes" />
+    </Component>
+
+    <!-- License File Component -->
+    <Component Id="LicenseComponent" Directory="INSTALLFOLDER">
+      <File 
+        Id="ExampleLicense" 
+        Name="example_license.lic" 
+        Source="example_license.lic"
+        Vital="no" />
+    </Component>
+
+    <!-- Documentation Component -->
+    <Component Id="DocumentationComponent" Directory="INSTALLFOLDER">
+      <File 
+        Id="InstallationGuide" 
+        Name="INSTALLATION_GUIDE.txt" 
+        Source="TROUBLESHOOTING.md"
+        Vital="no" />
+    </Component>
+
+    <!-- Registry component for tracking installation -->
+    <Component Id="RegistryComponent" Directory="INSTALLFOLDER">
+      <RegistryValue
+        Root="HKLM"
+        Key="Software\WhiteBeard\PawnPlugin"
+        Name="Installed"
+        Value="1"
+        Type="integer"
+        KeyPath="yes" />
+      
+      <RegistryValue
+        Root="HKLM"
+        Key="Software\WhiteBeard\PawnPlugin"
+        Name="Version"
+        Value="1.0.0"
+        Type="string" />
+      
+      <RegistryValue
+        Root="HKLM"
+        Key="Software\WhiteBeard\PawnPlugin"
+        Name="InstallDir"
+        Value="[INSTALLFOLDER]"
+        Type="string" />
+      
+      <RegistryValue
+        Root="HKLM"
+        Key="Software\WhiteBeard\PawnPlugin"
+        Name="InstallDate"
+        Value="[Date]"
+        Type="string" />
+
+      <!-- Instructions for manual setup -->
+      <RegistryValue
+        Root="HKLM"
+        Key="Software\WhiteBeard\PawnPlugin"
+        Name="MT5PluginPath"
+        Value="Copy PawnPlugin64.dll to: C:\MetaTrader 5 Platform\TradeMain\Plugins\"
+        Type="string" />
+      
+      <RegistryValue
+        Root="HKLM"
+        Key="Software\WhiteBeard\PawnPlugin"
+        Name="LicensePath"
+        Value="Copy license file to: C:\ProgramData\WhiteBeard\"
+        Type="string" />
+    </Component>
+  </Fragment>
+
+</Wix>
