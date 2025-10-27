@@ -3,7 +3,8 @@
   <!-- Custom UI dialogs for license verification and company info -->
 
   <Fragment>
-    <!-- License Selection Dialog -->
+    <UI Id="CustomDialogsUI">
+      <!-- License Selection Dialog -->
   <Dialog Id="LicenseSelectionDlg" Width="370" Height="270" Title="WhiteBeard Pawn Plugin - License Setup">
     
     <Control Id="Title" Type="Text" X="20" Y="20" Width="330" Height="20" 
@@ -143,9 +144,10 @@
 
   </Dialog>
 
-    <!-- Font definitions -->
-    <TextStyle Id="TitleFont" FaceName="Tahoma" Size="14" Bold="yes" />
+      <!-- Font definitions -->
+      <TextStyle Id="TitleFont" FaceName="Tahoma" Size="14" Bold="yes" />
 
+    </UI>
   </Fragment>
 
 </Wix>

@@ -63,12 +63,12 @@ REM First try without extension since we're using custom dialogs
 call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs
 if errorlevel 1 (
     echo First attempt failed, trying with UI extension...
-    REM Try different approaches to add the extension
+    REM Try to add the extension with correct syntax
     echo Attempting to install WiX UI extension...
-    "%WIX_EXE%" extension add --global WixToolset.UI.wixext --version 4.0.4 2>nul
+    "%WIX_EXE%" extension add -g WixToolset.UI.wixext 2>nul
     if errorlevel 1 (
-        echo Extension add failed, trying alternative...
-        "%WIX_EXE%" extension list
+        echo Extension add failed, listing available extensions...
+        "%WIX_EXE%" extension list 2>nul
     )
     echo Attempting build with UI extension...
     call "%WIX_EXE%" build -o "%OUTPUT_DIR%\WhiteBeardPawnPlugin.msi" Product.wxs CustomDialog.wxs -ext WixToolset.UI.wixext

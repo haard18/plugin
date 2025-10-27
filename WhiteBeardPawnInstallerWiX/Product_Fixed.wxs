@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  
+  <Package 
+    Name="WhiteBeard Pawn Plugin"
+    Language="1033"
+    Version="1.0.0.0"
+    Manufacturer="WhiteBeard"
+    UpgradeCode="12345678-1234-1234-1234-123456789012">
+
+    <!-- Package Configuration -->
+    <SummaryInformation Description="WhiteBeard Pawn Plugin for MetaTrader 5" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
+    
+    <!-- Media and Compression -->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Installation Directory Structure -->
+    <StandardDirectory Id="ProgramFilesFolder">
+      <Directory Id="INSTALLFOLDER" Name="WhiteBeard Pawn Plugin" />
+    </StandardDirectory>
+
+    <!-- Features -->
+    <Feature Id="MainFeature" Title="WhiteBeard Pawn Plugin" Level="1">
+      <ComponentRef Id="MainComponent" />
+      <ComponentRef Id="RegistryComponent" />
+    </Feature>
+
+    <!-- Custom Actions -->
+    <Binary Id="CustomActionsBinary" SourcePath="CustomActions.dll" />
+    
+    <CustomAction 
+      Id="InstallPluginFilesAction"
+      BinaryRef="CustomActionsBinary"
+      DllEntry="InstallPluginFiles"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no" />
+
+    <!-- Installation Sequence -->
+    <InstallExecuteSequence>
+      <Custom Action="InstallPluginFilesAction" After="InstallFiles">NOT Installed</Custom>
+    </InstallExecuteSequence>
+
+    <!-- Simple UI -->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    
+    <!-- Properties for Custom Actions -->
+    <Property Id="LICENSE_PATH" Value="" />
+    <Property Id="COMPANY_NAME" Value="" />
+    <Property Id="COMPANY_EMAIL" Value="" />
+    <Property Id="MT5_ROOT" Value="" />
+
+  </Package>
+
+  <!-- Components in Fragment -->
+  <Fragment>
+    <Component Id="MainComponent" Directory="INSTALLFOLDER">
+      <File 
+        Id="PluginDLL" 
+        Name="PawnPlugin64.dll" 
+        Source="Files\PawnPlugin64.dll"
+        KeyPath="yes" />
+    </Component>
+
+    <Component Id="RegistryComponent" Directory="INSTALLFOLDER">
+      <RegistryValue 
+        Root="HKLM" 
+        Key="Software\WhiteBeard\PawnPlugin" 
+        Name="Installed" 
+        Value="1" 
+        Type="integer"
+        KeyPath="yes" />
+      
+      <RegistryValue 
+        Root="HKLM" 
+        Key="Software\WhiteBeard\PawnPlugin" 
+        Name="Version" 
+        Value="1.0.0" 
+        Type="string" />
+      
+      <RegistryValue 
+        Root="HKLM" 
+        Key="Software\WhiteBeard\PawnPlugin" 
+        Name="InstallDir" 
+        Value="[INSTALLFOLDER]" 
+        Type="string" />
+    </Component>
+  </Fragment>
+
+</Wix>

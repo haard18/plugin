@@ -2,9 +2,8 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <!-- Main WiX Installer Definition for WhiteBeard Pawn Plugin -->
 
-  <!-- Product Definition -->
-  <Product 
-    Id="*"
+  <!-- Package Definition (WiX v4 uses Package as root, not Product) -->
+  <Package 
     Name="WhiteBeard Pawn Plugin"
     Language="1033"
     Version="1.0.0.0"
@@ -12,7 +11,8 @@
     UpgradeCode="12345678-1234-1234-1234-123456789012">
 
     <!-- Package Information -->
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <SummaryInformation Description="WhiteBeard Pawn Plugin for MetaTrader 5" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
 
     <!-- MediaTemplate for file compression -->
     <MediaTemplate EmbedCab="yes" />
@@ -195,7 +195,10 @@
 
     </UI>
 
-  </Product>
+    <!-- Reference custom dialogs -->
+    <UIRef Id="CustomDialogsUI" />
+
+  </Package>
 
   <!-- ============================================ -->
   <!-- COMPONENTS & FILES FRAGMENT -->
@@ -203,7 +206,7 @@
 
   <Fragment>
     <!-- Plugin Files Component - Master copy stored in installation directory -->
-  <Component Id="PluginFilesComponent" Directory="INSTALLFOLDER" Bitness="x64">
+  <Component Id="PluginFilesComponent" Directory="INSTALLFOLDER" Bitness="always64">
     <!-- Master copy of plugin DLL kept in installation directory for reference/updates -->
     <File 
       Id="PluginDLL" 
